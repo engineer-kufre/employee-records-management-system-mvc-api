@@ -1,0 +1,24 @@
+﻿@model List<EmployeeRecordsMVC.DTOs.ReturnedUserDTO>
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h1 class="rider">Our Team</h1>
+<div class="pagination">
+    <a asp-action="Previous" method="get" asp-controller="Dashboard">Prev</a>
+    <a asp-action="Next" method="get" asp-controller="Dashboard">Next</a>
+</div>
+
+<div class="team">
+    @foreach (var employee in Model)
+    {
+        <div class="card">
+            <img src=@employee.Photo asp-append-version="true" alt="Avatar">
+            <div class="card-text">
+                <h6><b>Name:  </b>@employee.FirstName @employee.LastName</h6>
+                <h6><b>Email:  </b>@employee.Email</h6>
+                <h6><b>Department:  </b>@employee.Department</h6>
+            </div>
+        </div>
+    }
+</div>

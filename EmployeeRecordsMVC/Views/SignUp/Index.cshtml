@@ -1,0 +1,59 @@
+﻿@model SignUpViewModel
+@{
+    ViewData["Title"] = "Sign Up";
+}
+
+<form class="form-signin signup-form" method="post" asp-action="Index" asp-controller="SignUp" enctype="multipart/form-data">
+    <h1 class="h3 mb-3 font-weight-normal">Sign Up</h1>
+
+    <div class="form-group">
+        <label asp-for="FirstName"></label><span class="star">*</span>
+        <input asp-for="FirstName" id="inputFirstName" class="form-control" placeholder="Enter First Name">
+        <span asp-validation-for="FirstName" class="star"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="LastName"></label><span class="star">*</span>
+        <input asp-for="LastName" id="inputLastName" class="form-control" placeholder="Enter Last Name">
+        <span asp-validation-for="LastName" class="star"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" id="inputEmail" class="form-control" placeholder="Enter Email Address">
+        <span asp-validation-for="Email"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Department"></label>
+        @Html.DropDownListFor(m => m.SelectedDepartment, Model.Department, "Select Department")
+    </div>
+
+    @*@if(ViewBag.IsAdmin == true)
+    {*@
+        <div class="form-group drop">
+            <label>Role</label>
+            @Html.DropDownListFor(m => m.SelectedRole, Model.Roles, "Select Role")
+        </div>
+    @*}*@
+
+    <div class="form-group">
+        <label asp-for="Password"></label><span class="star">*</span>
+        <input asp-for="Password" id="inputPassword" class="form-control" placeholder="Enter Password">
+        <span asp-validation-for="Password" class="star"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ConfirmPassword"></label><span class="star">*</span>
+        <input asp-for="ConfirmPassword" id="inputPassword" class="form-control" placeholder="Confirm Password">
+        <span asp-validation-for="ConfirmPassword" class="star"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Photo"></label>
+        <input asp-for="Photo" class="form-control">
+        <span asp-validation-for="Photo"></span>
+    </div>
+    
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+</form>

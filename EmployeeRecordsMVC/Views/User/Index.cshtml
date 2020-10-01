@@ -1,0 +1,14 @@
+﻿@model ReturnedUserViewModel
+@{
+    ViewData["Title"] = "User";
+}
+
+<h1 class="rider">Welcome, @Model.FirstName @Model.LastName!</h1>
+
+<div class="user-card">
+    <img src=@Model.Photo asp-append-version="true" alt="Avatar">
+    <div class="user-card-text">
+        <h6><b>Name:  </b>@Model.FirstName @Model.LastName</h6>
+        <h6><b>Email:  </b>@Model.Email</h6>
+    </div>
+</div>
