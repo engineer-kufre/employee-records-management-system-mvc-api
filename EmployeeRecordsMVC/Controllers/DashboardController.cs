@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using EmployeeRecordsMVC.DTOs;
 using EmployeeRecordsMVC.Models;
 using EmployeeRecordsMVC.Services;
+using EmployeeRecordsMVC.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +35,7 @@ namespace EmployeeRecordsMVC.Controllers
         public async Task<IActionResult> Index(int pages = 1)
         {
             ViewBag.LoggedIn = true;
+            ViewBag.IsDashboard = true;
 
             List<ReturnedUserDTO> returnedUsers = new List<ReturnedUserDTO>();
 
@@ -44,17 +46,23 @@ namespace EmployeeRecordsMVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult Charts()
+        public async Task<IActionResult> Charts()
         {
-            return View();
+            ViewBag.LoggedIn = true;
+            ViewBag.IsCharts = true;
+
+            List<ChartVIewModel> allUsers = new List<ChartVIewModel>();
+
+            //make GET requests and save user objects to collection
+            int numberOfUsers = _userManager.Users.Count();
+            await CreateAllUsersList(allUsers, numberOfUsers, _userManager);
+            return View(allUsers);
         }
 
         [HttpGet]
         public IActionResult Next()
         {
             ViewBag.LoggedIn = true;
-
-            List<ReturnedUserDTO> returnedUsers = new List<ReturnedUserDTO>();
 
             //make GET requests and save user objects to collection
             int numberOfUsers = _userManager.Users.Count();
@@ -63,8 +71,6 @@ namespace EmployeeRecordsMVC.Controllers
                 pages++;
             }
             return RedirectToAction("Index", new { pages });
-            //await CreateUsersList(returnedUsers, numberOfUsers, pages);
-            //return View(returnedUsers);
         }
 
         [HttpGet]
@@ -80,12 +86,46 @@ namespace EmployeeRecordsMVC.Controllers
                 return RedirectToAction("Index", new { pages = 1 });
             }
             return RedirectToAction("Index", new { pages });
-            //List<ReturnedUserDTO> returnedUsers = new List<ReturnedUserDTO>();
+        }
 
-            ////make GET requests and save user objects to collection
-            //int numberOfUsers = _userManager.Users.Count();
-            //await CreateUsersList(returnedUsers, numberOfUsers, pages);
-            //return View(returnedUsers);
+        //method to make GET requests and save author objects to author repository list
+        private static async Task<ICollection<ChartVIewModel>> CreateAllUsersList(ICollection<ChartVIewModel> allUsers, int numberOfUsers, UserManager<Employee> userManager)
+        {
+            int numberOfPages = (numberOfUsers / 6) + 1;
+            int i = 1;
+            while (i <= numberOfPages)
+            {
+                Task<PaginatedReturnedUsersDTO> page = GetUserRequest("https://localhost:44361/employee/allemployees?page=" + i);
+                PaginatedReturnedUsersDTO apiPage = await page;
+
+                foreach (var returnedUser in apiPage.ReturnedUsers)
+                {
+                    string role = "";
+                    var email = returnedUser.Email;
+                    var user = await userManager.FindByEmailAsync(email);
+                    var isAdmin = await userManager.IsInRoleAsync(user, "Admin");
+                    if (isAdmin)
+                    {
+                        role = "Admin";
+                    }
+                    else
+                    {
+                        role = "User";
+                    }
+                    var model = new ChartVIewModel
+                    {
+                        FirstName = returnedUser.FirstName,
+                        LastName = returnedUser.LastName,
+                        Email = returnedUser.Email,
+                        Photo = returnedUser.Photo,
+                        Department = returnedUser.Department,
+                        Role =  role
+                    };
+                    allUsers.Add(model);
+                }
+                i++;
+            }
+            return allUsers;
         }
 
         //method to make GET requests and save author objects to author repository list

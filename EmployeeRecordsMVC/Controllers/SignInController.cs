@@ -20,13 +20,13 @@ namespace EmployeeRecordsMVC.Controllers
 {
     public class SignInController : Controller
     {
-        private readonly ILogger<SignUpController> _logger;
+        private readonly ILogger<SignInController> _logger;
         private readonly AppDbContext _context;
         private readonly UserManager<Employee> _userManager;
         private readonly SignInManager<Employee> _signInManager;
         private readonly IConfiguration _configuration;
 
-        public SignInController(ILogger<SignUpController> logger, AppDbContext context, UserManager<Employee> userManager, SignInManager<Employee> signInManager, IConfiguration configuration)
+        public SignInController(ILogger<SignInController> logger, AppDbContext context, UserManager<Employee> userManager, SignInManager<Employee> signInManager, IConfiguration configuration)
         {
             _logger = logger;
             _context = context;
@@ -100,7 +100,7 @@ namespace EmployeeRecordsMVC.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("Index", "User", new { email = matchEmail.Email });
+                            return RedirectToAction("Index", "User", new { id = matchEmail.Id });
                         }
                     }
                 }

@@ -30,9 +30,9 @@ html {
   font-size: 14px;
 }
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+     }
 }
 
 .border-top {
@@ -156,4 +156,20 @@ img {
 .pagination{
     display: flex;
     justify-content: space-between;
+}
+.canvas-flex{
+    display: flex;
+}
+.canvases {
+    width: 50%;
+}
+
+@media (max-width: 768px) {
+    .canvas-flex {
+        display: block;
+    }
+    .canvases {
+        width: 100%;
+        margin-bottom: 50px;
+    }
 }

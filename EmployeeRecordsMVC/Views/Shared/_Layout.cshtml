@@ -18,6 +18,16 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div>
+                    @if (ViewBag.IsDashboard == true)
+                    {
+                        <a asp-action="Charts" method="get" asp-controller="Dashboard">Charts</a>
+                        <span> | </span>
+                    }
+                    @if (ViewBag.IsCharts == true)
+                    {
+                        <a asp-action="Index" method="get" asp-controller="Dashboard">Dashboard</a>
+                        <span> | </span>
+                    }
                     <a asp-action="Index" method="get" asp-controller="SignUp">Sign Up</a>
                     @if (ViewBag.LoggedIn == true)
                     {

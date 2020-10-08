@@ -10,15 +10,27 @@
 </div>
 
 <div class="team">
-    @foreach (var employee in Model)
+    @for (var i = 0; i < Model.Count; i++)
     {
-        <div class="card">
-            <img src=@employee.Photo asp-append-version="true" alt="Avatar">
-            <div class="card-text">
-                <h6><b>Name:  </b>@employee.FirstName @employee.LastName</h6>
-                <h6><b>Email:  </b>@employee.Email</h6>
-                <h6><b>Department:  </b>@employee.Department</h6>
-            </div>
+    <div class="card" id="@i.ToString()" onclick="selectedimg(this)">
+        @*<a asp-action="Selected" method="post" asp-controller="User">
+            <img src=@Model[i].Photo asp-append-version="true" alt="Avatar">
+        </a>*@
+        <img src=@Model[i].Photo asp-append-version="true" alt="Avatar">
+        <div class="card-text">
+            <h6><b>Name:  </b>@Model[i].FirstName @Model[i].LastName</h6>
+            <h6 class="card-text-email"><b>Email:  </b>@Model[i].Email</h6>
+            <h6><b>Department:  </b>@Model[i].Department</h6>
         </div>
+    </div>
     }
 </div>
+
+<script>
+    function selectedimg(a) {
+        var selected = a.getElementsByClassName('card-text-email')[0].innerText;
+        window.localStorage.setItem("email", selected);
+        window.location.href = "/user/index?value=" + localStorage.getItem("email");
+    }
+    
+</script>

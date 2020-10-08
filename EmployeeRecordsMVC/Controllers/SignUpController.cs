@@ -85,7 +85,7 @@ namespace EmployeeRecordsMVC.Controllers
                 }
                 else
                 {
-                    PhotoLink = "~/images/Avatar.png";
+                    PhotoLink = "~/images/Avatar1.jpg";
                 }
 
                 var employee = new Employee

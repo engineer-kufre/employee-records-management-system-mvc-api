@@ -23,11 +23,11 @@ namespace EmployeeRecordsMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(string email)
+        public async Task<IActionResult> Index(string id)
         {
             ViewBag.LoggedIn = true;
 
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByIdAsync(id);
             var model = new ReturnedUserViewModel
             {
                 FirstName = user.FirstName,
